@@ -10,7 +10,7 @@ export interface IUserRepository
     getAllUser(): User[];
     getUserById(id : string) : User|undefined;
     createUser(users: User): User;
-    updateUserById(id: string): User;
+    updateUserById(id: string, updatedUser: Partial<User>): User;
     deleteUser(id: string): User|undefined;
 
 }
@@ -26,20 +26,18 @@ export class UserRepository implements IUserRepository{
         users.push(newUser);
         return newUser;
     }
-    updateUserById(id: string, updatedData: Partial<User>): User | undefined {
+    updateUserById(id: string, updatedUser: Partial<User>): User | undefined {
     const userIndex = users.findIndex(u => u.id === id);
     if (userIndex === -1) return undefined;
 
     users[userIndex] = {
       ...users[userIndex],
-      ...updatedData,
+      ...updatedUser,
     };
 
     return users[userIndex];
-}
-  
-
     }
+  
     deleteUser(id: string): User | undefined {
         const userIndex = users.findIndex(u=> u.id ===id);
         const deleteUser = users[userIndex];
