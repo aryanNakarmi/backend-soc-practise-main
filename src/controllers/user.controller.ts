@@ -1,7 +1,6 @@
 import { Request, Response} from "express";
 import { CreateUserDTO } from "../dtos/user.dto";
 import { UserService } from "../services/user.service";import { User } from "../types/user.types";
-\
 
 const userService = new UserService();
 
@@ -16,7 +15,19 @@ export class UserController {
             const newUser: User = userService.createUser({ id, username, email, name });
             return res.status(201).json(newUser);
         }catch(err: Error|any){
-            return res.status(500).json({error:err.message ? "Internal Server Error"});
+            return res.status(500).json({error:err.message ?? "Internal Server Error"});
+        }
+    };
+    getUsers = (req:Request , res:Response)=>{
+        const return_user: User[]= userService.getUser();
+        
+        res.status(200).json(return_user);
+    };
+    getUserById = (req: Request,res:Response)=>{
+        const userId = req.params.userid;
+        const return_userId= userService.getUserById(userId);
+        if(!return_userId){
+            return res.status(404).json({message: "User not found"});
         }
     }
 }
