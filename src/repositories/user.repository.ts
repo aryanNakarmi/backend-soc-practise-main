@@ -10,7 +10,7 @@ export interface IUserRepository
     getAllUser(): User[];
     getUserById(id : string) : User|undefined;
     createUser(users: User): User;
-    updateUserById(id: string, updatedUser: Partial<User>): User;
+    updateUserById(id: string, updatedUser: Partial<User>): User|undefined;
     deleteUser(id: string): User|undefined;
 
 }
