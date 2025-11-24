@@ -1,0 +1,22 @@
+import { Request, Response} from "express";
+import { CreateUserDTO } from "../dtos/user.dto";
+import { UserService } from "../services/user.service";import { User } from "../types/user.types";
+\
+
+const userService = new UserService();
+
+export class UserController {
+    createUser = (req:Request,res:Response)=>{
+        try{
+            const validation = CreateUserDTO.safeParse(req.body);
+            if(!validation.success){
+                return res.status(400).json({errors:validation.error});
+            }
+            const {id, username, email, name} =validation.data;
+            const newUser: User = userService.createUser({ id, username, email, name });
+            return res.status(201).json(newUser);
+        }catch(err: Error|any){
+            return res.status(500).json({error:err.message ? "Internal Server Error"});
+        }
+    }
+}
