@@ -10,7 +10,7 @@ export interface IUserRepository
     getAllUser(): User[];
     getUserById(id : string) : User|undefined;
     createUser(users: User): User;
-    updateUserById(id: string): User|undefined
+    updateUserById(id: string): User;
     deleteUser(id: string): User|undefined;
 
 }
@@ -26,11 +26,25 @@ export class UserRepository implements IUserRepository{
         users.push(newUser);
         return newUser;
     }
-    updateUserById(id: string): User | undefined {
-        throw new Error("Method not implemented.");
+    updateUserById(id: string, updatedData: Partial<User>): User | undefined {
+    const userIndex = users.findIndex(u => u.id === id);
+    if (userIndex === -1) return undefined;
+
+    users[userIndex] = {
+      ...users[userIndex],
+      ...updatedData,
+    };
+
+    return users[userIndex];
+}
+  
+
     }
     deleteUser(id: string): User | undefined {
-        throw new Error("Method not implemented.");
-    }
+        const userIndex = users.findIndex(u=> u.id ===id);
+        const deleteUser = users[userIndex];
+        users.splice(userIndex, 1);
+        return deleteUser;
+    };
 
 }
