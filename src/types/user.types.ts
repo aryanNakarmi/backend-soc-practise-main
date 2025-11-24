@@ -4,7 +4,7 @@ export const UserSchema = z.object({
     username: z.string().min(1,{message: "Username is required"}),
     email: z.string().min(1,{message: "email is required"}),
     name: z.string().min(1,{message: "Name is required"}),  
-    age: z.string().optional()
+    age: z.number().optional()
 });
 
 export type User =z.infer<typeof UserSchema>;
