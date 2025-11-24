@@ -64,10 +64,10 @@ npm run dev
 src/
 ├── index.ts              # App entry point (minimal)
 ├── types/
-│   └── user.types.ts     # User interface/type
+│   └── ruser.types.ts     # User interface/type
 ├── dtos/
 │   └── user.dto.ts       # CreateUserDto, UpdateUserDto
-├── repositories/
+├── repositoies/
 │   └── user.repository.ts # Data access layer
 ├── services/
 │   └── user.service.ts    # Business logic
