@@ -1,4 +1,4 @@
-import { id } from "zod/v4/locales";
+import { Request, Response} from "express";
 import { CreateUserDTO } from "../dtos/user.dto";
 import { IUserRepository, UserRepository } from "../repositories/user.repository";
 import { User } from "../types/user.types";
@@ -11,7 +11,7 @@ export class UserService{
         .getAllUser()
         return transformedUsers;
     }
-    createUser= (userData: CreateUserDTO, res: Response): User =>{
+    createUser= (userData: CreateUserDTO): User =>{
         const newUser: User= {...userData};
         let existingUser = userRepository
         .getUserById(newUser.id);
@@ -20,9 +20,11 @@ export class UserService{
         }
         return userRepository.createUser(newUser);
     }
-    getUserById = (id:string): User|undefined=>{
-
-        return userRepository.getUserById(id);
+    getUserById = (id:string, res: Response): User|undefined=>{
+        const user= userRepository.getUserById;
+        if(!user){
+            return res.status(404).json.({message:"})
+        }
         
     }
     updateUser = (id: string):
