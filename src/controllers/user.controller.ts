@@ -35,7 +35,7 @@ export class UserController {
       const id: string = req.params.id;
       const updatedData = req.body;
 
-      const updatedUser = userService.updateUser =(updatedData);
+      const updatedUser = userService.updateUser(id,updatedData);
       return res.status(200).json(updatedUser);
     } catch (err: Error | any) {
       return res
@@ -46,7 +46,8 @@ export class UserController {
     deleteUser = (req: Request, res: Response) => {
     try {
       const id: string = req.params.id;
-      return userService.deleteUserById(id);
+      const deletedUser = userService.deleteUserById(id);
+      return res.status(200).json({deleted: deletedUser})
     } catch (err: Error | any) {
       return res
         .status(500)
