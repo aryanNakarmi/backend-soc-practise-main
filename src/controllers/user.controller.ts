@@ -30,9 +30,18 @@ export class UserController {
             return res.status(404).json({message: "User not found"});
         }
     }
-    updatedUser = (req:Request, res:Response)=>{
-        try
+    updateUser = (req: Request, res: Response) => {
+    try {
+      const id: string = req.params.id;
+      const updatedData = req.body;
+
+      return userService.updateUserById =(id, updatedData, res);
+    } catch (err: Error | any) {
+      return res
+        .status(500)
+        .json({ error: err.message ?? "Internal Server Error" });
     }
+  };
     deleteUser = (req: Request, res: Response) => {
     try {
       const id: string = req.params.id;
