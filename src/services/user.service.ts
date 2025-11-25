@@ -32,16 +32,35 @@ export class UserService{
         }
         if (updatedUser.username) {
             const existsUserByUsername = userRepository
-                .getAllUsers()
+                .getAllUser()
                 .find((u) => u.username === updatedUser.username && u.id !== id);
 
         if (existsUserByUsername) {
                throw new Error("User already Exists");
             }
+        }
+        if (updatedUser.email) {
+            const existsUserByEmail = userRepository
+                .getAllUser()
+                .find((u) => u.email === updatedUser.email && u.id !== id);
+
+            if (existsUserByEmail) {
+                throw new Error("Email already exists" );
+            }
             }
 
+            const updatedUserData = userRepository.updateUserById(id, updatedUser);
+            return updatedUserData;
+    }
 
+    deleteUserById = (id:string)=>{
+        const existingUser = userRepository.getUserById(id);
+        if(!existingUser){
+            throw new Error("User not found");
+        }
+    
+        const deletedUser = userRepository.deleteUser(id);
 
-        
+        return deletedUser;
     }
 }
