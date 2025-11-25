@@ -11,7 +11,7 @@ export class UserService{
         .getAllUser()
         return transformedUsers;
     }
-    createUser= (userData: CreateUserDTO): User =>{
+    createUser= (userData: CreateUserDTO, res: Response): User =>{
         const newUser: User= {...userData};
         let existingUser = userRepository
         .getUserById(newUser.id);
