@@ -1,4 +1,4 @@
-import { Request, Response} from "express";
+
 import { CreateUserDTO } from "../dtos/user.dto";
 import { IUserRepository, UserRepository } from "../repositories/user.repository";
 import { User } from "../types/user.types";
@@ -20,12 +20,28 @@ export class UserService{
         }
         return userRepository.createUser(newUser);
     }
-    getUserById = (id:string, res: Response): User|undefined=>{
-        const user= userRepository.getUserById;
-        if(!user){
-            return res.status(404).json.({message:"})
-        }
+    getUserById = (id:string): User|undefined=>{
+
+        return userRepository.getUserById(id);
         
     }
-    updateUser = (id: string):
+    updateUser = (id: string, updatedUser: Partial<User>)=>{
+        const existingUser = userRepository.getUserById(id);
+        if (!existingUser) {
+            throw new Error("User Not Found");
+        }
+        if (updatedUser.username) {
+            const existsUserByUsername = userRepository
+                .getAllUsers()
+                .find((u) => u.username === updatedUser.username && u.id !== id);
+
+        if (existsUserByUsername) {
+               throw new Error("User already Exists");
+            }
+            }
+
+
+
+        
+    }
 }
